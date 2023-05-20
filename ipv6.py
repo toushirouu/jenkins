@@ -21,7 +21,6 @@ def ipv6_expand(ipv6: str) -> str:
                 result_first.append(item)
                 continue
             else:
-                print(f"trza robic {item}")
                 liczba_do_dodania = 4 - len(item)
                 result_first.append('0' * liczba_do_dodania + item)
 
