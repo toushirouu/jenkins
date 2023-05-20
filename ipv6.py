@@ -16,9 +16,7 @@ def ipv6_expand(ipv6: str) -> str:
         main_list = ipv6.split('::')
         first = main_list[0].split(':')
         second = main_list[1].split(':')
-        print(first)
         for item in first:
-            print(item)
             if len(item) == 4:
                 result_first.append(item)
                 continue
@@ -28,12 +26,10 @@ def ipv6_expand(ipv6: str) -> str:
                 result_first.append('0' * liczba_do_dodania + item)
 
         for item in second:
-            print(item)
             if len(item) == 4:
                 result_second.append(item)
                 continue
             else:
-                print(f"trza robic {item}")
                 liczba_do_dodania = 4 - len(item)
                 result_second.append('0' * liczba_do_dodania + item)
 
@@ -44,12 +40,10 @@ def ipv6_expand(ipv6: str) -> str:
     else:
         main_list = ipv6.split(':')
         for item in main_list:
-            print(item)
             if len(item) == 4:
                 result_first.append(item)
                 continue
             else:
-                print(f"trza robic {item}")
                 liczba_do_dodania = 4 - len(item)
                 result_first.append('0' * liczba_do_dodania + item)
         return_list = result_first
@@ -60,8 +54,7 @@ def ipv6_expand(ipv6: str) -> str:
         raise Exception(f'{ipv6} address is incorrect')
     return ipv6
 
-# print(ipv6_expand('2001:4860:4860::8888'))
-#print(ipv6_expand('::BBBB:2'))
+
 def ipv6_compress(ipv6: str) -> str:
     permitted = [chr(x) for x in range(48, 59)] + \
                 [chr(x) for x in range(65, 71)] + \
@@ -80,7 +73,6 @@ def script(path: str, method):
         interface['address'] = method(interface['address'])
     with open(path, 'w') as file:
         json.dump(data, file)
-        print('hello')
 
 
 if __name__ == '__main__':
