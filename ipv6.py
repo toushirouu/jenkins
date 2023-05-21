@@ -62,7 +62,28 @@ def ipv6_compress(ipv6: str) -> str:
         if item not in permitted:
             raise Exception(f"Incorrect address, {item} cannot be included in ipv6 address")
 
-    return ipv6
+    if '::' in ipv6:
+        return ipv6
+    else:
+        return_list = []
+        sections = ipv6.split(':')
+        for section in sections:
+            count = 0
+            for i in range(len(section)):
+                if i == 0 and section[i] != '0':
+                    break
+                else:
+                    if section[i] =='0':
+                        print(section)
+                        count += 1
+                    else:
+                        break
+
+            return_list.append(section[count:])
+        for i in range(len(return_list)):
+            if return_list[i] == '':
+                return_list[i] = '0'
+        return ':'.join(return_list)
 
 
 def script(path: str, method):
@@ -82,3 +103,4 @@ if __name__ == '__main__':
         script(path, ipv6_expand)
     elif function_name == 'compress':
         script(path, ipv6_compress)
+
