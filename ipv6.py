@@ -74,7 +74,6 @@ def ipv6_compress(ipv6: str) -> str:
                     break
                 else:
                     if section[i] =='0':
-                        print(section)
                         count += 1
                     else:
                         break
