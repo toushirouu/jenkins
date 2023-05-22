@@ -10,42 +10,42 @@ def ipv6_expand(ipv6: str) -> str:
         if item not in permitted_chars:
             raise Exception(f"Incorrect address, {item} cannot be included in ipv6 address")
 
-    result_first = []
-    result_second = []
+    result_first_section = []
+    result_second_section = []
     if '::' in ipv6:
-        main_list = ipv6.split('::')
-        first = main_list[0].split(':')
-        second = main_list[1].split(':')
-        for item in first:
+        sections = ipv6.split('::')
+        first_section = sections[0].split(':')
+        second_section = sections[1].split(':')
+        for item in first_section:
             if len(item) == 4:
-                result_first.append(item)
+                result_first_section.append(item)
                 continue
             else:
-                liczba_do_dodania = 4 - len(item)
-                result_first.append('0' * liczba_do_dodania + item)
+                to_add = 4 - len(item)
+                result_first_section.append('0' * to_add + item)
 
-        for item in second:
+        for item in second_section:
             if len(item) == 4:
-                result_second.append(item)
+                result_second_section.append(item)
                 continue
             else:
-                liczba_do_dodania = 4 - len(item)
-                result_second.append('0' * liczba_do_dodania + item)
+                to_add = 4 - len(item)
+                result_second_section.append('0' * to_add + item)
 
-        to_add = 8 - (len(result_first) + len(result_second))
-        return_list = result_first + ['0000'] * to_add + result_second
+        to_add = 8 - (len(result_first_section) + len(result_second_section))
+        return_list = result_first_section + ['0000'] * to_add + result_second_section
         ipv6 = ':'.join(return_list)
 
     else:
-        main_list = ipv6.split(':')
-        for item in main_list:
+        sections = ipv6.split(':')
+        for item in sections:
             if len(item) == 4:
-                result_first.append(item)
+                result_first_section.append(item)
                 continue
             else:
-                liczba_do_dodania = 4 - len(item)
-                result_first.append('0' * liczba_do_dodania + item)
-        return_list = result_first
+                to_add = 4 - len(item)
+                result_first_section.append('0' * to_add + item)
+        return_list = result_first_section
         ipv6 = ':'.join(return_list)
 
     correctness = True if ipv6.count(':') == 7 else False
@@ -85,7 +85,7 @@ def ipv6_compress(ipv6: str) -> str:
         return ':'.join(return_list)
 
 
-def script(path: str, method):
+def start(path: str, method):
     with open(path, 'r') as file:
         data = (json.load(file))
     for interface in data['interfaces']:
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     path = args[1]
     function_name = args[2]
     if function_name == 'expand':
-        script(path, ipv6_expand)
+        start(path, ipv6_expand)
     elif function_name == 'compress':
-        script(path, ipv6_compress)
+        start(path, ipv6_compress)
 
