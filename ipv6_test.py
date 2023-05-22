@@ -4,7 +4,7 @@ from ipv6 import ipv6_expand, ipv6_compress
 
 
 def test_expand_positive():
-    ipv6_address = '2DFA::F'
+    ipv6_address = '2DFA::FZ'
     expected_result = '2DFA:0000:0000:0000:0000:0000:0000:000F'
     result = ipv6_expand(ipv6_address)
     assert result == expected_result
