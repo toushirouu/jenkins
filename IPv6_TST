@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage ('Clean Workspace') {
+            steps {
+                sh 'rm -rf jenkins'
+            }
+        }
+        stage('Clone Repository') {
+            steps {
+                sh 'git clone https://github.com/skotlowski/jenkins.git'
+            }
+        }
+        stage('Run unit tests'){
+            steps {
+                sh 'pytest jenkins/ipv6_test.py'
+            }
+        }
+    }
+}

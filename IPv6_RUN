@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    
+    parameters {
+        choice choices: ['expand', 'compress'], description: 'Pick one', name: 'METHOD'
+        choice choices: ['config_host1.json', 'config_host2.json'], description: 'Pick one', name: 'FILE'
+        file 'config_file'
+    }
+    
+    stages {
+        stage ('Clean Workspace') {
+            steps {
+                sh 'rm -rf jenkins'
+            }
+        }
+
+        stage('Clone Repository') {
+            steps {
+                sh 'git clone https://github.com/skotlowski/jenkins.git'
+            }
+        }
+        stage('Trigger Test job') {
+            steps {
+                script{
+                    build job: "IPv6_TST" , wait: true
+                }
+            }
+        }
+        stage('Run Python script'){
+            steps {
+                sh "python3 jenkins/ipv6.py jenkins/${params.FILE} ${params.METHOD}"
+            }
+        }
+        stage('Copy config file to public directory'){
+            steps {
+                sh "cp jenkins/${params.FILE} /tmp/ -f"
+            }
+        }
+    }
+}
